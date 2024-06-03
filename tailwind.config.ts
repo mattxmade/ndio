@@ -15,6 +15,10 @@ const config: Config = {
       "muted-dark": "#273444",
     },
 
+    fontFamily: {
+      metrophobic: ["Metrophobic", "sans-serif"],
+    },
+
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
