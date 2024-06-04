@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
 import "./globals.css";
+import theme from "@/../tailwind.config";
+import resolveConfig from "tailwindcss/resolveConfig";
 
 import Aside from "@/components/core/Aside";
 import Header from "@/components/core/Header";
+import Player from "@/components/Player";
 
 const inter = Inter({ subsets: ["latin"] });
+const styleConfig = resolveConfig(theme).theme;
+
+const top = "4";
+const offsetTop = styleConfig.padding[top];
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,13 +28,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " " + "text-primary font-metrophobic"}>
-        <div>
-          <Aside />
+        <div className={`relative flex gap-1 px-2 `}>
+          <Aside
+            className={`sticky top-${top} h-[calc(100dvh-${offsetTop})] bg-background`}
+          />
           <section>
-            <Header />
+            <Header className={`sticky top-0 bg-background`} />
             <main>{children}</main>
           </section>
         </div>
+        <Player />
       </body>
     </html>
   );
