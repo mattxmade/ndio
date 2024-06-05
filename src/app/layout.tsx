@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " " + "text-primary font-metrophobic"}>
-        <div className={`relative flex gap-1 px-2 `}>
+        <div className={`relative flex gap-2 pl-2 pr-5`}>
           <Aside
             className={`sticky top-${top} h-[calc(100dvh-${offsetTop})] bg-background`}
           />
