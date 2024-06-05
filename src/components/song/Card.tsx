@@ -5,11 +5,15 @@ import PlayButton from "../player/PlayButton";
 const Card = (props: React.ComponentProps<"section">) => {
   return (
     <section className="flex gap-4" {...props}>
-      <img
-        src="/cover.avif"
-        alt="cover art"
-        className="aspect-square w-[18.8rem]"
-      />
+      <div className="relative h-fit">
+        <img
+          src="/cover.avif"
+          alt="cover art"
+          className="aspect-square w-[18.8rem] max-w-none"
+        />
+
+        <PlayButton variant="overlay" />
+      </div>
 
       <section className="flex flex-col gap-2">
         <div className="flex gap-2">
@@ -34,7 +38,7 @@ const Card = (props: React.ComponentProps<"section">) => {
 
         <Button>Sign in to create more tracks like this!</Button>
 
-        <div className="flex gap-8">
+        <div className="flex gap-8 mt-3 mb-5">
           <PlayButton variant="standalone" />
 
           <div className="flex gap-4">
