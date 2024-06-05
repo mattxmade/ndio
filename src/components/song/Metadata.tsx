@@ -15,14 +15,14 @@ const Metadata = (props: MetadataProps) => {
         <i role="presentation">
           <PlayIcon size={props.size ?? 12} className="fill-primary" />
         </i>
-        <p>{metadata.plays}</p>
+        <p className={!props.size ? "text-xs" : "text-sm"}>{metadata.plays}</p>
       </li>
 
       <li className="flex gap-2 items-center">
         <i role="presentation">
           <HeartIcon size={props.size ?? 12} className="fill-primary" />
         </i>
-        <p>{metadata.likes}</p>
+        <p className={!props.size ? "text-xs" : "text-sm"}>{metadata.likes}</p>
       </li>
 
       {skipDate ? null : (
@@ -30,7 +30,9 @@ const Metadata = (props: MetadataProps) => {
           <i role="presentation">
             <ClockIcon size={props.size ?? 12} className="stroke-primary" />
           </i>
-          <p>{metadata.created}</p>
+          <p className={!props.size ? "text-xs" : "text-sm"}>
+            {metadata.created}
+          </p>
         </li>
       )}
     </ul>
