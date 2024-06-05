@@ -33,7 +33,7 @@ export default function RootLayout({
             className={`sticky top-${top} h-[calc(100dvh-${offsetTop})] bg-background`}
           />
           <section>
-            <Header className={`sticky top-0 bg-background`} />
+            <Header className={`sticky top-0 z-50 bg-background`} />
             <main>{children}</main>
           </section>
         </div>
