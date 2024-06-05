@@ -1,4 +1,5 @@
 import { DicesIcon, ZapIcon } from "lucide-react";
+import Button from "../core/Button";
 
 const GeneratorForm = () => {
   return (
@@ -12,9 +13,7 @@ const GeneratorForm = () => {
               <DicesIcon className="w-5 duration-300 origin-right hover:rotate-45" />
             </button>
 
-            <button disabled={true} className="py-2 px-4 rounded bg-rose-500">
-              Create
-            </button>
+            <Button>Create</Button>
           </div>
         </div>
 
