@@ -1,3 +1,4 @@
+import Button from "../core/Button";
 import Metadata from "./Metadata";
 
 const Card = (props: React.ComponentProps<"section">) => {
@@ -19,7 +20,7 @@ const Card = (props: React.ComponentProps<"section">) => {
           Title
         </h1>
 
-        <div className="flex flex-col gap-[1.1rem]">
+        <div className="flex flex-col gap-[1.1rem] mb-2">
           <p className="text-sm text-muted font-bold">
             Prompt: prompt description
           </p>
@@ -30,7 +31,7 @@ const Card = (props: React.ComponentProps<"section">) => {
           </p>
         </div>
 
-        {/* <Button/> */}
+        <Button>Sign in to create more tracks like this!</Button>
 
         <div className="flex gap-8">
           {/* <PlayButton/> */}
@@ -43,7 +44,7 @@ const Card = (props: React.ComponentProps<"section">) => {
 
         <Metadata
           skipDate
-          size={16}
+          size={13}
           metadata={{ plays: 162, likes: 9, created: Date.now() }}
         />
       </section>
