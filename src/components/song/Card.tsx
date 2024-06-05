@@ -1,5 +1,6 @@
 import Button from "../core/Button";
 import Metadata from "./Metadata";
+import PlayButton from "../player/PlayButton";
 
 const Card = (props: React.ComponentProps<"section">) => {
   return (
@@ -34,7 +35,7 @@ const Card = (props: React.ComponentProps<"section">) => {
         <Button>Sign in to create more tracks like this!</Button>
 
         <div className="flex gap-8">
-          {/* <PlayButton/> */}
+          <PlayButton variant="standalone" />
 
           <div className="flex gap-4">
             {/* <ShareButton/> */}
