@@ -2,13 +2,17 @@ import Button from "../core/Button";
 import Metadata from "./Metadata";
 import PlayButton from "../player/PlayButton";
 
-const Card = (props: React.ComponentProps<"section">) => {
+type CardProps = {
+  songData: SongData;
+} & React.ComponentProps<"section">;
+
+const Card = ({ songData, ...props }: CardProps) => {
   return (
     <section className="flex gap-4" {...props}>
       <div className="relative h-fit">
         <img
-          src="/cover.avif"
-          alt="cover art"
+          src={songData.cover}
+          alt={songData.title}
           className="aspect-square w-[18.8rem] max-w-none"
         />
 
@@ -18,19 +22,19 @@ const Card = (props: React.ComponentProps<"section">) => {
       <section className="flex flex-col gap-2">
         <div className="flex gap-2">
           <div className="w-7 h-7 rounded-full bg-blue-950" />
-          <h2 className="text-sm text-muted">author name</h2>
+          <h2 className="text-sm text-muted">{songData.author.username}</h2>
         </div>
 
         <h1 title="Title" className="text-3xl text-primary">
-          Title
+          {songData.title}
         </h1>
 
         <div className="flex flex-col gap-[1.1rem] mb-2">
           <p className="text-sm text-muted font-bold">
-            Prompt: prompt description
+            Prompt: {songData.prompt}
           </p>
           <p className="text-sm text-muted">
-            {["Tag-A, Tag-B, Tag-C, Tag-D"].map((tag, i, array) =>
+            {songData.tags.map((tag, i, array) =>
               i !== array.length - 1 ? `${tag}, ` : tag
             )}
           </p>
@@ -47,11 +51,7 @@ const Card = (props: React.ComponentProps<"section">) => {
           </div>
         </div>
 
-        <Metadata
-          skipDate
-          size={13}
-          metadata={{ plays: 162, likes: 9, created: Date.now() }}
-        />
+        <Metadata skipDate size={13} metadata={songData.metadata} />
       </section>
     </section>
   );
