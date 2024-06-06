@@ -38,10 +38,10 @@ export default function SongPage() {
           <ul
             className={
               playlistHeight > maxHeight
-                ? "pl-2 pr-4 overflow-y-scroll"
+                ? "pl-2 pr-4 pb-6 overflow-y-scroll"
                 : "pl-2 pr-4"
             }
-            style={{ height: `calc(${twHeight} * ${heightValue})` }}
+            style={{ height: `calc(${twHeight} * ${3.5})` }}
           >
             {playlistItems.map((_, i) => (
               <li key={i} className="h-28">
