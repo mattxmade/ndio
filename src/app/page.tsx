@@ -1,6 +1,4 @@
-import { songData } from "@/content";
-
-const songs = [songData, songData, songData, songData, songData, songData];
+import { playlist } from "@/content";
 
 export default function Home() {
   return (
