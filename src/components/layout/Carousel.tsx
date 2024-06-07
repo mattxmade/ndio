@@ -1,12 +1,24 @@
+import CardGraphic from "../song/CardGraphic";
+import { generatePlaylist } from "@/content";
+
 type CarouselProps = {
-  title: string;
-  songs: SongData[];
+  categoryData: CategoryData;
 } & React.ComponentPropsWithRef<"section">;
 
-const Carousel = ({ title, songs, ...props }: CarouselProps) => {
+const Carousel = ({ categoryData, ...props }: CarouselProps) => {
+  const listOfSongs = generatePlaylist(categoryData.numOfSongs);
+
   return (
     <section {...props}>
-      <h2>{title}</h2>
+      <h2 className="text-primary font-bold">{categoryData.title}</h2>
+
+      <ul className="overflow-hidden md:flex">
+        {listOfSongs.map((songItem, i) => (
+          <li key={songItem.id}>
+            <CardGraphic songData={songItem} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 };
