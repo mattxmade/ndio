@@ -1,4 +1,5 @@
 import PlayButton from "../player/PlayButton";
+import Metadata from "./Metadata";
 
 type CardGrpahicProps = {
   songData: SongData;
@@ -6,17 +7,34 @@ type CardGrpahicProps = {
 
 const CardGraphic = ({ songData, ...props }: CardGrpahicProps) => {
   return (
-    <section className="flex" {...props}>
-      <div className="flex gap-4">
-        <div className="relative h-fit">
-          <img
-            src={songData.cover}
-            alt={songData.title}
-            className="aspect-square w-24 max-w-none"
-          />
+    <section className="grid gap-2 m-[0.45rem]" {...props}>
+      <div className="relative h-fit">
+        <img
+          src={songData.cover}
+          alt={songData.title}
+          className="aspect-square w-[12.65rem]  max-w-none"
+        />
 
-          <PlayButton variant="overlay" />
-        </div>
+        <PlayButton variant="overlay" />
+      </div>
+
+      <div className="text-muted">
+        <a href="#">
+          <h4 className="text-sm text-primary hover:underline">
+            {songData.title}
+          </h4>
+        </a>
+
+        <a href="#" className="text-xs hover:underline">
+          <p>{songData.author.username}</p>
+        </a>
+
+        <Metadata
+          skipDate
+          size={14}
+          metadata={songData.metadata}
+          className="mt-1"
+        />
       </div>
     </section>
   );
