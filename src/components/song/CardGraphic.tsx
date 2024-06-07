@@ -12,7 +12,7 @@ const CardGraphic = ({ songData, ...props }: CardGrpahicProps) => {
         <img
           src={songData.cover}
           alt={songData.title}
-          className="aspect-square w-[12.65rem]  max-w-none"
+          className="aspect-square w-[12.5rem] max-w-none"
         />
 
         <PlayButton variant="overlay" />
