@@ -6,9 +6,7 @@ type MetadataProps = {
   metadata: { plays: number; likes: number; created: number };
 } & React.ComponentPropsWithRef<"ul">;
 
-const Metadata = (props: MetadataProps) => {
-  const { skipDate, metadata } = props;
-
+const Metadata = ({ skipDate, metadata, ...props }: MetadataProps) => {
   return (
     <ul {...props} className={`flex gap-4 ` + props.className}>
       <li className="flex gap-1 items-center">
