@@ -33,3 +33,39 @@ body {
     text-wrap: balance;
   }
 }
+
+/*===========
+  Scrollbar
+=============*/
+::-webkit-scrollbar {
+  width: 17px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(66, 66, 66);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(104, 104, 104);
+  border: transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(123, 123, 123);
+  border: transparent;
+}
+
+ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+ul::-webkit-scrollbar-thumb,
+ul::-webkit-scrollbar-thumb:hover {
+  border: transparent;
+  border-radius: 1rem;
+  background-color: rgba(104, 104, 104, 0.4);
+}
