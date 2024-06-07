@@ -1,5 +1,7 @@
-import CardGraphic from "../song/CardGraphic";
+import { ArrowLeftIcon } from "lucide-react";
 import { generatePlaylist } from "@/content";
+
+import CardGraphic from "../song/CardGraphic";
 
 type CarouselProps = {
   categoryData: CategoryData;
@@ -10,9 +12,26 @@ const Carousel = ({ categoryData, ...props }: CarouselProps) => {
 
   return (
     <section {...props}>
-      {props.children}
+      <header className="flex items-center justify-between">
+        {props.children}
 
-      <ul className="md:flex relative left-[-0.5rem]">
+        <nav className="flex gap-4 mr-5">
+          <button
+            className="p-2 rounded-full bg-primary bg-opacity-0 duration-300 hover:bg-opacity-15"
+            aria-label="navigate left"
+          >
+            <ArrowLeftIcon size={24} />
+          </button>
+          <button
+            className="rotate-180 p-2 rounded-full bg-primary bg-opacity-0 duration-300 hover:bg-opacity-15"
+            aria-label="navigate right"
+          >
+            <ArrowLeftIcon size={24} />
+          </button>
+        </nav>
+      </header>
+
+      <ul className="relative left-[-1rem] md:flex overflow-x-scroll">
         {listOfSongs.map((songItem, i) => (
           <li key={songItem.id + i}>
             <CardGraphic songData={songItem} />
