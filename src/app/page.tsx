@@ -8,7 +8,7 @@ export default function Home() {
         <Carousel
           key={category.id}
           categoryData={category}
-          className="overflow-hidden grid gap-2"
+          className="grid gap-2"
         >
           <h2 className="text-2xl text-primary">{category.title}</h2>
         </Carousel>
