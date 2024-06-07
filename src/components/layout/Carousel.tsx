@@ -10,11 +10,11 @@ const Carousel = ({ categoryData, ...props }: CarouselProps) => {
 
   return (
     <section {...props}>
-      <h2 className="text-primary font-bold">{categoryData.title}</h2>
+      {props.children}
 
-      <ul className="overflow-hidden md:flex">
+      <ul className="md:flex relative left-[-0.5rem]">
         {listOfSongs.map((songItem, i) => (
-          <li key={songItem.id}>
+          <li key={songItem.id + i}>
             <CardGraphic songData={songItem} />
           </li>
         ))}
