@@ -1,7 +1,8 @@
-import PlayButton from "../player/PlayButton";
-import Metadata from "./Metadata";
-import { MoreHorizontalIcon } from "lucide-react";
 import { Fragment } from "react";
+import { MoreHorizontalIcon } from "lucide-react";
+
+import Metadata from "./Metadata";
+import PlayButton from "../player/PlayButton";
 
 type CardDetailProps = {
   songData: SongData;
