@@ -1,5 +1,5 @@
 "use client";
 
-const useSearch = () => {};
+const useQuery = () => {};
 
-export default useSearch;
+export default useQuery;
