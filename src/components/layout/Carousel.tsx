@@ -12,7 +12,7 @@ const Carousel = ({ categoryData, ...props }: CarouselProps) => {
 
   return (
     <section {...props}>
-      <header className="flex items-center justify-between">
+      <header className="flex flex-wrap items-center justify-between">
         {props.children}
 
         <nav className="flex gap-4 mr-5">
