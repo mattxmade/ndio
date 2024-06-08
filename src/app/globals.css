@@ -57,6 +57,7 @@ body {
 
 ul::-webkit-scrollbar {
   width: 6px;
+  height: 0;
 }
 
 ul::-webkit-scrollbar-track {
