@@ -3,7 +3,7 @@ import Button from "../core/Button";
 
 const GeneratorForm = () => {
   return (
-    <form className="py-3">
+    <form className="py-3 hidden md:block">
       <fieldset title="input prompt" className="relative">
         <div className="absolute w-full h-full pl-3 pr-4 flex items-center justify-between">
           <ZapIcon className=" fill-muted stroke-muted" />
