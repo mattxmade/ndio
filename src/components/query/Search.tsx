@@ -38,7 +38,7 @@ const Search = ({ items, ...props }: SearchProps) => {
             <li className="hidden md:list-item">
               {<CardDetail songData={item} />}
             </li>
-            <li className="list-item md:hidden">
+            <li className="list-item md:hidden mb-2 md:mb-0">
               {<CardGraphic songData={item} />}
             </li>
           </Fragment>
