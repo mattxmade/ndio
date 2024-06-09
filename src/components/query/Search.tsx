@@ -3,6 +3,8 @@
 import { Fragment } from "react";
 
 import useQuery from "./useQuery";
+import useBreakpoint from "../layout/useBreakpoint";
+
 import SearchBar from "./SearchBar";
 import SortOptions from "./SortOptions";
 import CardDetail from "../song/CardDetail";
@@ -14,6 +16,7 @@ type SearchProps = {
 
 const Search = ({ items, ...props }: SearchProps) => {
   const { results } = useQuery(items);
+  const { currentBreakpoint } = useBreakpoint();
 
   return (
     <section {...props}>
@@ -35,12 +38,13 @@ const Search = ({ items, ...props }: SearchProps) => {
       <ul className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-self-center md:justify-self-auto">
         {results.map((item, item_i) => (
           <Fragment key={"row-list-item" + item_i}>
-            <li className="hidden md:list-item">
-              {<CardDetail songData={item} />}
-            </li>
-            <li className="list-item md:hidden mb-2 md:mb-0">
-              {<CardGraphic songData={item} />}
-            </li>
+            {currentBreakpoint !== "sm" ? (
+              <li>{<CardDetail songData={item} />}</li>
+            ) : (
+              <li className="mb-2 md:mb-0">
+                {<CardGraphic songData={item} />}
+              </li>
+            )}
           </Fragment>
         ))}
       </ul>
