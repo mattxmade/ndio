@@ -1,9 +1,12 @@
 "use client";
 
+import { Fragment } from "react";
+
 import useQuery from "./useQuery";
-import CardDetail from "../song/CardDetail";
 import SearchBar from "./SearchBar";
 import SortOptions from "./SortOptions";
+import CardDetail from "../song/CardDetail";
+import CardGraphic from "../song/CardGraphic";
 
 type SearchProps = {
   items: SongData[];
@@ -17,7 +20,7 @@ const Search = ({ items, ...props }: SearchProps) => {
       <header className="flex flex-wrap items-center justify-between">
         {props.children}
 
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full hidden md:flex items-center justify-between">
           <SearchBar />
           <SortOptions
             sortBy={[
@@ -29,11 +32,16 @@ const Search = ({ items, ...props }: SearchProps) => {
         </div>
       </header>
 
-      <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+      <ul className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-self-center md:justify-self-auto">
         {results.map((item, item_i) => (
-          <li key={"row-list-item" + item_i}>
-            {<CardDetail songData={item} />}
-          </li>
+          <Fragment key={"row-list-item" + item_i}>
+            <li className="hidden md:list-item">
+              {<CardDetail songData={item} />}
+            </li>
+            <li className="list-item md:hidden">
+              {<CardGraphic songData={item} />}
+            </li>
+          </Fragment>
         ))}
       </ul>
     </section>
