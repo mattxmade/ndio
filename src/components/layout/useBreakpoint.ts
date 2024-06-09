@@ -13,6 +13,16 @@ const breakpoints = {
 
 const useBreakpoint = () => {
   const [currentBreakpoint, setCurrentBreakpoint] = useState();
+
+  const handleResize = () => {};
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 };
 
 export default useBreakpoint;
