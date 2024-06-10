@@ -14,8 +14,9 @@ const breakpoints = {
 };
 
 const useBreakpoint = () => {
-  const [currentBreakpoint, setCurrentBreakpoint] =
-    useState<keyof typeof breakpoints>("sm");
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<
+    keyof typeof breakpoints | null
+  >(null);
 
   const handleResize = () => {
     if (window.innerWidth < breakpoints.md) setCurrentBreakpoint("sm");
@@ -42,6 +43,9 @@ const useBreakpoint = () => {
   };
 
   useEffect(() => {
+    if (!window) return;
+
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
