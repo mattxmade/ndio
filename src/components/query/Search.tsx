@@ -36,17 +36,19 @@ const Search = ({ items, ...props }: SearchProps) => {
       </header>
 
       <ul className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 justify-self-center md:justify-self-auto">
-        {results.map((item, item_i) => (
-          <Fragment key={"row-list-item" + item_i}>
-            {currentBreakpoint !== "sm" ? (
-              <li>{<CardDetail songData={item} />}</li>
-            ) : (
-              <li className="mb-2 md:mb-0">
-                {<CardGraphic songData={item} />}
-              </li>
-            )}
-          </Fragment>
-        ))}
+        {!currentBreakpoint
+          ? null
+          : results.map((item, item_i) => (
+              <Fragment key={"row-list-item" + item_i}>
+                {currentBreakpoint !== "sm" ? (
+                  <li>{<CardDetail songData={item} />}</li>
+                ) : (
+                  <li className="mb-2 md:mb-0">
+                    {<CardGraphic songData={item} />}
+                  </li>
+                )}
+              </Fragment>
+            ))}
       </ul>
     </section>
   );
