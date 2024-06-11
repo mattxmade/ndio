@@ -24,9 +24,9 @@ export default function SongPage() {
           <section className="md:w-1/2 ">
             <h2 className="text-lg md:text-xl font-bold mb-4">Lyrics</h2>
 
-            {lyrics.map((line) => (
+            {lyrics.map((line, i) => (
               <p
-                key={line}
+                key={line + "_lyric-line " + i}
                 className={`text-xs lg:text-base my-2 ${
                   line.endsWith("]") ? "mt-4 font-bold" : ""
                 }`}
