@@ -1,6 +1,7 @@
 "use client";
-
 import { LucideProps, Share2Icon } from "lucide-react";
+
+import IconButton from "./IconButton";
 
 type ShareButtonProps = {
   iconProps: LucideProps;
@@ -8,13 +9,9 @@ type ShareButtonProps = {
 
 const ShareButton = ({ iconProps, ...props }: ShareButtonProps) => {
   return (
-    <button
-      aria-label="share to socials"
-      {...props}
-      className={"" + " " + props.className}
-    >
+    <IconButton aria-label="share to socials">
       <Share2Icon {...iconProps} />
-    </button>
+    </IconButton>
   );
 };
 
