@@ -5,7 +5,7 @@ import { LucideProps, Share2Icon } from "lucide-react";
 import IconButton from "./IconButton";
 
 type ShareButtonProps = {
-  iconProps: LucideProps;
+  iconProps?: LucideProps;
 } & React.ComponentPropsWithRef<"button">;
 
 const ShareButton = ({ iconProps, ...props }: ShareButtonProps) => {

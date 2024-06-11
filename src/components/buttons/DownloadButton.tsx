@@ -5,7 +5,7 @@ import { LucideProps, DownloadIcon } from "lucide-react";
 import IconButton from "./IconButton";
 
 type DownloadButtonProps = {
-  iconProps: LucideProps;
+  iconProps?: LucideProps;
 } & React.ComponentPropsWithRef<"button">;
 
 const DownloadButton = ({ iconProps, ...props }: DownloadButtonProps) => {
