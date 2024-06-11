@@ -3,7 +3,7 @@ import Aside from "../core/Aside";
 import Header from "../core/Header";
 
 type PageTemplateProps = {
-  variant?: "sm";
+  variant?: "minimal";
 } & React.ComponentPropsWithRef<"div">;
 
 const PageTemplate = ({ variant, children }: PageTemplateProps) => (
