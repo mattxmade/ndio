@@ -16,7 +16,7 @@ export default function SongPage() {
   const playlistHeight = playlistItems.length * Number(twHeight.slice(0, -3));
 
   return (
-    <PageTemplate variant="sm">
+    <PageTemplate variant="minimal">
       <main className="flex flex-col p-7 pt-3 mt-3 bg-background mb-36 rounded">
         <Card songData={songData} className="flex flex-col md:flex-row gap-4" />
 
