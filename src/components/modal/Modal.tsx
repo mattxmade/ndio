@@ -1,10 +1,24 @@
 "use client";
 
-const MenuModal = (props: React.ComponentPropsWithRef<"dialog">) => {
+import { useRef } from "react";
+
+type MenuModalProps = {
+  id: string;
+} & Omit<React.ComponentPropsWithRef<"dialog">, "id">;
+
+const MenuModal = (props: MenuModalProps) => {
+  const modalRef = useRef<HTMLDialogElement | null>(null);
+
+  const closeModal = () => {
+    modalRef.current && modalRef.current.close();
+  };
+
   return (
     <>
-      {props.children}
-      <dialog {...props}>Menu Modal</dialog>
+      <dialog ref={modalRef} {...props}>
+        <button onClick={closeModal}>Close modal</button>
+        {props.children}
+      </dialog>
     </>
   );
 };
