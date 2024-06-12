@@ -18,7 +18,11 @@ const ModalButton = ({ modalId, ...props }: ModalButtonProps) => {
   }, []);
 
   const showModal = () => {
-    modalRef.current && modalRef.current.showModal();
+    if (!modalRef.current) return;
+
+    modalRef.current.open
+      ? modalRef.current.close()
+      : modalRef.current.showModal();
   };
 
   return (
