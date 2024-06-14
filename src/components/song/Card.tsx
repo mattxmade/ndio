@@ -1,8 +1,12 @@
+"use client";
+
+import { MoreHorizontalIcon } from "lucide-react";
+
 import Metadata from "./Metadata";
-import MenuModal from "./MenuModal";
+import Modal from "../modal/Modal";
 import Button from "../core/Button";
-import MenuButton from "../buttons/MenuButton";
 import PlayButton from "../player/PlayButton";
+import ModalButton from "../modal/ModalButton";
 import LikeButton from "../buttons/LikeButton";
 import ShareButton from "../buttons/ShareButton";
 import DownloadButton from "../buttons/DownloadButton";
@@ -14,8 +18,6 @@ type CardProps = {
 const Card = ({ songData, ...props }: CardProps) => {
   return (
     <section {...props} className={"" + " " + props.className}>
-      <MenuModal />
-
       <div className="relative w-fit h-fit self-center md:self-start">
         <img
           src={songData.cover}
@@ -88,12 +90,17 @@ const Card = ({ songData, ...props }: CardProps) => {
                   aria-label="Download track"
                   className="hidden md:block"
                 />
-                <MenuModal>
-                  <MenuButton
+
+                <>
+                  <Modal id="modal__track-menu" variant="drawer" />
+                  <ModalButton
+                    modalId="modal__track-menu"
                     aria-label="Track menu"
                     className="block md:hidden"
-                  />
-                </MenuModal>
+                  >
+                    <MoreHorizontalIcon />
+                  </ModalButton>
+                </>
               </div>
             </div>
 
