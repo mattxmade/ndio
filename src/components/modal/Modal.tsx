@@ -5,6 +5,7 @@ import { Drawer } from "vaul";
 
 import Tray from "./Tray";
 import Popup from "./Popup";
+import Tooltip from "./Tooltip";
 import useBreakpoint from "../layout/useBreakpoint";
 
 type Variant = "drawer" | "popup" | "tooltip";
@@ -57,32 +58,38 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
     <Drawer.Root open={open} onClose={handleClose}>
       <Trigger.FC
         {...Trigger.props}
-        id={"dialog-" + props.id + "-button"}
-        aria-controls={"dialog-" + props.id}
+        id={"modal-" + props.id + "-button"}
+        aria-controls={"modal-" + props.id}
         aria-label={props["aria-label"]}
         onClick={handleOpen}
       />
       <Drawer.Portal>
-        <Drawer.Overlay
-          className={`block fixed inset-0 cursor-pointer ${
-            type !== "tooltip" ? "bg-black/70" : ""
-          }`}
-          onClick={handleClose}
-          data-state={open ? "open" : "closed"}
-        />
+        {type !== "tooltip" ? (
+          <Drawer.Overlay
+            className="z-1000 w-[100vw] h-[100dvh] block fixed inset-0 cursor-pointer bg-black/70"
+            onClick={handleClose}
+            data-state={open ? "open" : "closed"}
+          />
+        ) : null}
 
-        {type === "popup" ? (
-          <Popup
-            id={"dialog-" + props.id}
+        {type === "tooltip" ? (
+          <Tooltip
+            id={"modal-" + props.id}
             open={open}
             handleClose={handleClose}
           >
+            {view}
+          </Tooltip>
+        ) : null}
+
+        {type === "popup" ? (
+          <Popup id={"modal-" + props.id} open={open} handleClose={handleClose}>
             {view}
           </Popup>
         ) : null}
 
         {type === "drawer" ? (
-          <Tray id={"dialog-" + props.id}>{view}</Tray>
+          <Tray id={"modal-" + props.id}>{view}</Tray>
         ) : null}
       </Drawer.Portal>
     </Drawer.Root>
