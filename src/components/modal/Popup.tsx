@@ -10,12 +10,12 @@ type PopupProps = {
 const Popup = forwardRef((props: PopupProps, ref) => {
   return (
     <Drawer.Content
-      id={"dialog-" + props.id}
-      aria-labelledby={"dialog-" + props.id + "-button"}
+      id={props.id}
+      aria-labelledby={props.id + "-button"}
       aria-describedby={
         !props["aria-label"]
-          ? props.id + " dialog"
-          : props["aria-label"] + " dialog"
+          ? props.id + " popup"
+          : props["aria-label"] + " popup"
       }
       className={"fixed bottom-0 left-0 right-0"}
     >
