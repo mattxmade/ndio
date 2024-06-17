@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Drawer } from "vaul";
 
 import Tray from "./Tray";
@@ -36,6 +36,7 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
   const [type, setType] = useState(variant);
   const [view, setView] = useState(props.children);
 
+  const anchorRef = useRef({ x: 0, y: 0 });
   const { currentBreakpoint } = useBreakpoint();
 
   const handleOpen = () => {
@@ -53,6 +54,29 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  const handleAnchor = () => {
+    if (type !== "tooltip") return;
+
+    const triggerBtn = document.getElementById(`modal-${props.id}-button`);
+
+    if (triggerBtn?.tagName === "BUTTON") {
+      const bounds = triggerBtn.getBoundingClientRect();
+      anchorRef.current.x = bounds.x - bounds.width;
+      anchorRef.current.y = bounds.y;
+    }
+  };
+
+  useEffect(handleAnchor, []);
+
+  useEffect(() => {
+    if (type === "tooltip" && open) {
+      switch (currentBreakpoint) {
+        case "sm":
+          setOpen(false);
+      }
+    }
+  }, [currentBreakpoint]);
 
   return (
     <Drawer.Root open={open} onClose={handleClose}>
@@ -72,11 +96,12 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
           />
         ) : null}
 
-        {type === "tooltip" ? (
+        {type === "tooltip" && anchorRef.current ? (
           <Tooltip
             id={"modal-" + props.id}
             open={open}
             handleClose={handleClose}
+            anchor={anchorRef.current}
           >
             {view}
           </Tooltip>
