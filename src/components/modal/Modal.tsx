@@ -11,7 +11,7 @@ import useBreakpoint from "../layout/useBreakpoint";
 type Variant = "drawer" | "popup" | "tooltip";
 type View = { view: React.ReactNode; variant: Variant };
 
-type Views = {
+export type Views = {
   sm?: View;
   md?: View;
   lg?: View;
@@ -19,12 +19,12 @@ type Views = {
   "2xl"?: View;
 };
 
-type Trigger = {
+export type Trigger = {
   FC: React.FC<React.ComponentPropsWithRef<"button">>;
   props?: React.ComponentPropsWithRef<"button">;
 };
 
-type ModalProps = {
+export type ModalProps = {
   id: string;
   views?: Views;
   variant: Variant;
@@ -36,7 +36,7 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
   const [type, setType] = useState(variant);
   const [view, setView] = useState(props.children);
 
-  const anchorRef = useRef({ x: 0, y: 0 });
+  const anchorRef = useRef({ x: 0, y: 0, scrollYPos: 0 });
   const { currentBreakpoint } = useBreakpoint();
 
   const handleOpen = () => {
@@ -51,13 +51,12 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
       setView(props.children);
     }
 
+    handleAnchor();
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
   const handleAnchor = () => {
-    if (type !== "tooltip") return;
-
     const triggerBtn = document.getElementById(`modal-${props.id}-button`);
 
     if (triggerBtn?.tagName === "BUTTON") {
@@ -65,9 +64,9 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
       anchorRef.current.x = bounds.x - bounds.width;
       anchorRef.current.y = bounds.y;
     }
-  };
 
-  useEffect(handleAnchor, []);
+    anchorRef.current.scrollYPos = window.scrollY;
+  };
 
   useEffect(() => {
     if (type === "tooltip" && open) {
