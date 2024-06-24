@@ -1,15 +1,12 @@
-const toggleFixedModalLayout = (state: boolean) => {
+const toggleFixedModalLayout = (state: boolean, scrollYPosition: number) => {
   const html = document.querySelector("html");
   const body = document.querySelector("body");
 
   if (!html || !body) return;
 
-  html.style.scrollBehavior;
-
   if (state) {
     // html
     [
-      { property: "padding-right", value: "17px" },
       { property: "scroll-behavior", value: "auto" },
       //@ts-ignore
     ].forEach((style) => (html.style[style.property] = style.value));
@@ -17,7 +14,8 @@ const toggleFixedModalLayout = (state: boolean) => {
     // body
     [
       { property: "position", value: "fixed" },
-      { property: "top", value: "0px" },
+      { property: "padding-right", value: "17px" },
+      { property: "top", value: -scrollYPosition + "px" },
       { property: "left", value: "0px" },
       { property: "right", value: "0px" },
       { property: "height", value: "auto" },
@@ -32,9 +30,11 @@ const toggleFixedModalLayout = (state: boolean) => {
     );
 
     // body
-    ["position", "top", "left", "right", "height"].forEach((property) =>
-      body.style.removeProperty(property)
+    ["position", "padding-right", "top", "left", "right", "height"].forEach(
+      (property) => body.style.removeProperty(property)
     );
+
+    window.scroll(0, scrollYPosition);
   }
 };
 
