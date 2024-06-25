@@ -20,7 +20,7 @@ export default function SongPage() {
       <main className="flex flex-col p-7 pt-3 mt-3 bg-background mb-36 rounded">
         <Card songData={songData} className="flex flex-col md:flex-row gap-4" />
 
-        <section className="flex flex-wrap p-1 pt-10">
+        <section className="flex flex-wrap gap-10 md:gap-0 p-1 pt-10">
           <section className="md:w-1/2 ">
             <h2 className="text-lg md:text-xl font-bold mb-4">Lyrics</h2>
 
