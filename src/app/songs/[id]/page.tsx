@@ -20,11 +20,20 @@ export default function SongPage() {
         <Card songData={songData} className="flex flex-col md:flex-row gap-4" />
 
         <section className="flex flex-wrap gap-10 md:gap-0 p-1 pt-10">
-          <section className="md:w-1/2 ">
-            <h2 className="text-lg md:text-xl font-bold mb-4">Lyrics</h2>
-
-            {songData.lyrics ? <Lyrics songLyrics={songData.lyrics} /> : null}
-          </section>
+          {songData.lyrics ? (
+            <Lyrics>
+              {songData.lyrics.split("/n").map((line, i) => (
+                <p
+                  key={line + "_lyric-line " + i}
+                  className={`lg:text-base my-2 ${
+                    line.endsWith("]") ? "mt-4 font-bold" : ""
+                  }`}
+                >
+                  {line}
+                </p>
+              ))}
+            </Lyrics>
+          ) : null}
 
           <section className="flex flex-col gap-2 md:w-1/2">
             <h2 className="text-xl font-bold">More from this creator</h2>
