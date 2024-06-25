@@ -4,13 +4,12 @@ import CardDetail from "@/components/song/CardDetail";
 
 import { styleConfig } from "@/app/style.config";
 import PageTemplate from "@/components/layout/PageTemplate";
+import Lyrics from "@/components/song/Lyrics";
 
 const heightValue = 28; // 7rem 112px
 const twHeight = styleConfig["height"][heightValue];
 
 export default function SongPage() {
-  const lyrics = songData.lyrics ? songData.lyrics.split("/n") : [];
-
   const playlistItems = [...new Array(3)];
   const maxHeight = Number(twHeight.slice(0, -3)) * 3;
   const playlistHeight = playlistItems.length * Number(twHeight.slice(0, -3));
@@ -24,16 +23,7 @@ export default function SongPage() {
           <section className="md:w-1/2 ">
             <h2 className="text-lg md:text-xl font-bold mb-4">Lyrics</h2>
 
-            {lyrics.map((line, i) => (
-              <p
-                key={line + "_lyric-line " + i}
-                className={`text-xs lg:text-base my-2 ${
-                  line.endsWith("]") ? "mt-4 font-bold" : ""
-                }`}
-              >
-                {line}
-              </p>
-            ))}
+            {songData.lyrics ? <Lyrics songLyrics={songData.lyrics} /> : null}
           </section>
 
           <section className="flex flex-col gap-2 md:w-1/2">
