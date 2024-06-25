@@ -12,7 +12,7 @@ type SingInProps = {
 const SignIn = (props: SingInProps) => {
   return (
     <Modal id="signin" variant="popup" Trigger={props.Button}>
-      <div className="relative p-4 bg-background border b-slate-700">
+      <div className="relative p-6 bg-background border border-primary/15 border-y-0">
         <button
           aria-label="close sign in window"
           className="absolute top-4 right-4"
