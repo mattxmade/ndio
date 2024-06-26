@@ -31,7 +31,7 @@ const SignIn = (props: SingInProps) => {
           <ul className="w-fit">
             {signin.providers.map((provider) => (
               <li key={provider.name} className="py-2">
-                <Button className="w-60 h-10 flex gap-4 items-center px-8 py-[0] text-background bg-primary/100">
+                <Button className="w-60 h-10 flex gap-4 items-center px-8 py-[0] text-background bg-white">
                   <provider.Icon />
                   <span className="text-slate-900">
                     Sign in with {provider.name}
