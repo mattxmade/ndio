@@ -14,7 +14,7 @@ const PageTemplate = ({ variant, children }: PageTemplateProps) => (
       <Nav className={variant ? "hidden md:flex" : ""} />
     </Aside>
     <section className="flex-auto">
-      <Header className={`fixed md:sticky w-full top-0 z-50 bg-background`} />
+      <Header />
       {children}
     </section>
   </div>
