@@ -5,7 +5,7 @@ const Button = (props: React.ComponentPropsWithRef<"button">) => {
     <button
       {...props}
       className={
-        "text-sm w-fit py-[0.6rem] px-4 rounded duration-100 hover:bg-opacity-80" +
+        "text-sm w-fit py-[0.6rem] px-4 rounded duration-100 hover:bg-opacity-80 truncate" +
           " " +
           props.className ?? ""
       }
