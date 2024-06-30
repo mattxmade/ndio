@@ -89,7 +89,8 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
       <Drawer.Portal>
         {type !== "tooltip" ? (
           <Drawer.Overlay
-            className="z-1000 w-[100vw] h-[100dvh] block fixed inset-0 cursor-pointer bg-black/70"
+            className="w-[100vw] h-[100dvh] block fixed inset-0 cursor-pointer bg-black/80"
+            style={{ zIndex: 1000 }}
             onClick={handleClose}
             data-state={open ? "open" : "closed"}
           />
@@ -101,19 +102,27 @@ const Modal = ({ views, variant, Trigger, ...props }: ModalProps) => {
             open={open}
             handleClose={handleClose}
             anchor={anchorRef.current}
+            style={{ zIndex: 1000 }}
           >
             {view}
           </Tooltip>
         ) : null}
 
         {type === "popup" ? (
-          <Popup id={"modal-" + props.id} open={open} handleClose={handleClose}>
+          <Popup
+            id={"modal-" + props.id}
+            style={{ zIndex: 1000 }}
+            open={open}
+            handleClose={handleClose}
+          >
             {view}
           </Popup>
         ) : null}
 
         {type === "drawer" ? (
-          <Tray id={"modal-" + props.id}>{view}</Tray>
+          <Tray id={"modal-" + props.id} style={{ zIndex: 1000 }}>
+            {view}
+          </Tray>
         ) : null}
       </Drawer.Portal>
     </Drawer.Root>
