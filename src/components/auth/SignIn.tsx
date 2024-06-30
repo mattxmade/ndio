@@ -27,11 +27,11 @@ const SignIn = (props: SingInProps) => {
           <p className="text-xs text-muted">{signin.subheading}</p>
         </section>
 
-        <section className="relative grid justify-items-center gap-12 px-5 pt-10 pb-3 rounded-lg border-primary/90 border-4">
+        <section className="relative px-6 md:px-32 pt-12 md:pt-20 pb-24 md:p-24 grid justify-items-center gap-12 rounded-lg border-primary/90 border-4">
           <ul className="w-fit">
             {signin.providers.map((provider) => (
-              <li key={provider.name} className="py-2">
-                <Button className="w-60 h-10 flex gap-4 items-center px-8 py-[0] text-background bg-white">
+              <li key={provider.name} className="py-3">
+                <Button className="w-64 h-10 flex gap-4 justify-center items-center px-8 py-[0] text-background bg-white">
                   <provider.Icon />
                   <span className="text-slate-900">
                     Sign in with {provider.name}
@@ -41,7 +41,7 @@ const SignIn = (props: SingInProps) => {
             ))}
           </ul>
 
-          <p className="relative bottom-2 left-4 text-xs text-primary w-[15.4rem]">
+          <p className="md:w-3/4 absolute bottom-6 md:bottom-4 left-8 md:left-auto text-xs text-primary text-justify w-[15.4rem]">
             {signin.terms.map((content) =>
               content.link ? (
                 <a key={content.text} href={content.link} className="underline">
