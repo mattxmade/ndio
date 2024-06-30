@@ -18,6 +18,7 @@ const Popup = forwardRef((props: PopupProps, ref) => {
           : props["aria-label"] + " popup"
       }
       className={"fixed bottom-0 left-0 right-0"}
+      style={props.style}
     >
       <div
         onClick={props.handleClose}
