@@ -18,8 +18,10 @@ type Controls = {
 
 type PlayerContext = {
   open?: boolean;
+  track?: SongData | null;
+  handleTrack: (data: SongData) => void;
   controls: Controls;
-  setControls: React.Dispatch<React.SetStateAction<Controls>>;
+  handleControls: (control: keyof Controls, action: boolean) => void;
 };
 
 export const PlayerContext = createContext<PlayerContext | null>(null);
@@ -55,12 +57,14 @@ export default function PlayerContextProvider({ children }: ProviderProps) {
     <PlayerContext.Provider
       value={{
         open,
+        track,
         controls,
-        setControls,
+        handleTrack,
+        handleControls,
       }}
     >
       {children}
-      <Player open={open} />
+      <Player /> :
     </PlayerContext.Provider>
   );
 }
