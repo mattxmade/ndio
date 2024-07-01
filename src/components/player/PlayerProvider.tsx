@@ -8,6 +8,7 @@ type ProviderProps = {
 };
 
 type Controls = {
+  [index: string]: boolean;
   play: boolean;
   prev: boolean;
   next: boolean;
@@ -25,6 +26,9 @@ export const PlayerContext = createContext<PlayerContext | null>(null);
 
 export default function PlayerContextProvider({ children }: ProviderProps) {
   const [open, setOpen] = useState(false);
+
+  const [track, setTrack] = useState<SongData | null>(null);
+
   const [controls, setControls] = useState<PlayerContext["controls"]>({
     play: false,
     prev: false,
@@ -32,6 +36,20 @@ export default function PlayerContextProvider({ children }: ProviderProps) {
     shuffle: false,
     repeat: false,
   });
+
+  const handleTrack = useCallback((data: SongData) => {
+    setTrack(data);
+  }, []);
+
+  const handleControls = useCallback(
+    (control: keyof Controls, action: boolean) => {
+      setControls({
+        ...controls,
+        [control]: action,
+      });
+    },
+    []
+  );
 
   return (
     <PlayerContext.Provider
