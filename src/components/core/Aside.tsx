@@ -11,13 +11,12 @@ import { usePlayerContext } from "../player/PlayerProvider";
 
 const Aside = (props: React.ComponentProps<"aside">) => {
   const player = usePlayerContext();
-
-  const height = !player.open ? "h-screen" : "h-[calc(100vh-6rem)]";
+  const height = !player.open ? "md:h-screen" : "md:h-[calc(100vh-6rem)]";
 
   return (
     <aside
       {...props}
-      className={`relative md:sticky top-0 pt-4 h-fit md:${height} bg-background`}
+      className={`relative md:sticky top-0 pt-4 h-fit ${height} bg-background`}
     >
       <a href="/">
         <img src="/logo.svg" alt="logo" className="w-40 pt-1 pl-5" />
