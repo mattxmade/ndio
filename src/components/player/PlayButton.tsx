@@ -1,7 +1,7 @@
 "use client";
 
 import { PlayIcon, PauseIcon } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePlayerContext } from "./PlayerProvider";
 
 type PlayButtonProps = {
@@ -15,10 +15,17 @@ const PlayButton = ({ variant, track, ...props }: PlayButtonProps) => {
   const handlePointerOver = () => setHovering(true);
   const handlePointerOut = () => setHovering(false);
 
-  const { controls, handleTrack, handleControls } = usePlayerContext();
+  const activeTrack = useRef(false);
+
+  const { controls, handleTrack, handleControls, ...player } =
+    usePlayerContext();
+
+  activeTrack.current = track.id === player.track?.id ? true : false;
 
   const handleCurrentTrack = () => {
-    track && handleTrack(track);
+    if (!track) return;
+
+    handleTrack(track);
     handleControls("play", !controls.play);
   };
 
@@ -52,7 +59,7 @@ const PlayButton = ({ variant, track, ...props }: PlayButtonProps) => {
       }
       onClick={handleCurrentTrack}
     >
-      {!controls.play ? (
+      {!activeTrack.current || !controls.play ? (
         <PlayIcon
           size={48}
           className={`${
