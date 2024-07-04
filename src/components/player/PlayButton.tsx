@@ -23,10 +23,14 @@ const PlayButton = ({ variant, track, ...props }: PlayButtonProps) => {
   activeTrack.current = track.id === player.track?.id ? true : false;
 
   const handleCurrentTrack = () => {
-    if (!track) return;
+    if (!player.track || player.track.id !== track.id) {
+      handleTrack(track);
+      handleControls("play", true, true);
+    }
 
-    handleTrack(track);
-    handleControls("play", !controls.play);
+    if (player.track?.id === track.id) {
+      handleControls("play", !controls.play, false);
+    }
   };
 
   return variant === "player" ? (
