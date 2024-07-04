@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+
 import {
   ShuffleIcon,
   SkipBackIcon,
@@ -12,16 +16,32 @@ import {
   ListMusicIcon,
 } from "lucide-react";
 
-const Player = () => {
+import { usePlayerContext } from "./player/PlayerProvider";
+
+type PlayerProps = {
+  children?: React.ReactNode;
+};
+
+const Player = ({ children }: PlayerProps) => {
+  const { track, controls, handleControls } = usePlayerContext();
+
+  const elapsedRef = useRef<HTMLParagraphElement | null>(null);
+  const remainingRef = useRef<HTMLParagraphElement | null>(null);
+  const playerPosition = useRef<"translate-y-full" | "translate-y-0">(
+    "translate-y-full"
+  );
+
+  track && (playerPosition.current = "translate-y-0");
+
   return (
     <section
       id="player"
-      className="flex justify-between items-end fixed bottom-0 w-screen z-20 pl-9 pr-5 pt-2 pb-3 bg-background"
+      className={`flex justify-between items-end fixed bottom-0 w-screen z-20 pl-9 pr-5 pt-2 pb-3 bg-background duration-300 ${playerPosition.current}`}
     >
       <div id="player-metadata" className="w-1/4 flex gap-4">
         <img
-          src="cover.avif"
-          alt="cover art"
+          src={track?.cover ?? "/cover.avif"}
+          alt={track?.title ? track?.title + " cover art" : "cover art"}
           className="w-16 relative bottom-1"
         />
         <div className="flex flex-col gap-2 justify-center">
@@ -30,14 +50,14 @@ const Player = () => {
             referrerPolicy="no-referrer"
             className="text-white hover:underline"
           >
-            <h1 className="font-medium">Track Title</h1>
+            <h1 className="font-medium">{track?.title ?? "Track Title"}</h1>
           </a>
           <a
             href="#"
             referrerPolicy="no-referrer"
             className="text-xs text-muted hover:underline"
           >
-            <h2>Track Author</h2>
+            <h2>{track?.author.username ?? "Track Author"}</h2>
           </a>
         </div>
       </div>
@@ -62,9 +82,13 @@ const Player = () => {
           <button
             aria-label="Play/Pause track"
             className="flex justify-center items-center bg-background w-12 h-9 rounded hover:bg-white hover:bg-opacity-20"
+            onClick={() => handleControls("play", !controls.play, false)}
           >
-            <PlayIcon className="w-8 fill-primary" />
-            {/* <PauseIcon className="w-8 fill-primary" /> */}
+            {!controls.play ? (
+              <PlayIcon className="w-8 fill-primary" />
+            ) : (
+              <PauseIcon className="w-8 fill-primary" />
+            )}
           </button>
           <button
             aria-label="Play next track"
@@ -84,7 +108,9 @@ const Player = () => {
           id="player-progress"
           className="w-full h-9 flex gap-1 justify-center items-center"
         >
-          <p className="text-sm">0:16</p>
+          <p ref={elapsedRef} className="text-sm">
+            0:16
+          </p>
           <input
             type="range"
             min={0}
@@ -92,7 +118,9 @@ const Player = () => {
             step={0.1}
             className="w-9/12 cursor-pointer accent-splash"
           />
-          <p className="text-sm">2:12</p>
+          <p ref={remainingRef} className="text-sm">
+            2:12
+          </p>
         </div>
       </div>
 
@@ -138,7 +166,6 @@ const Player = () => {
             min={0}
             max={1}
             step={0.1}
-            value={1}
             className="w-28 cursor-pointer accent-splash"
           />
         </div>
