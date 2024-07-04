@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useState } from "react";
-import Player from "../Player";
+import Player from "./Player";
 
 type ProviderProps = {
   children: React.ReactNode;
@@ -14,21 +14,23 @@ type Controls = {
   next: boolean;
   shuffle: boolean;
   repeat: boolean;
+  reset: boolean;
 };
 
 type PlayerContext = {
-  open?: boolean;
   track?: SongData | null;
   handleTrack: (data: SongData) => void;
   controls: Controls;
-  handleControls: (control: keyof Controls, action: boolean) => void;
+  handleControls: (
+    control: keyof Controls,
+    action: boolean,
+    reset: boolean
+  ) => void;
 };
 
 export const PlayerContext = createContext<PlayerContext | null>(null);
 
 export default function PlayerContextProvider({ children }: ProviderProps) {
-  const [open, setOpen] = useState(false);
-
   const [track, setTrack] = useState<SongData | null>(null);
 
   const [controls, setControls] = useState<PlayerContext["controls"]>({
@@ -37,26 +39,30 @@ export default function PlayerContextProvider({ children }: ProviderProps) {
     next: false,
     shuffle: false,
     repeat: false,
+    reset: false,
   });
 
-  const handleTrack = useCallback((data: SongData) => {
-    setTrack(data);
-  }, []);
-
   const handleControls = useCallback(
-    (control: keyof Controls, action: boolean) => {
+    (control: keyof Controls, action: boolean, reset: boolean) => {
       setControls({
         ...controls,
+        reset,
         [control]: action,
       });
     },
-    []
+    [controls]
+  );
+
+  const handleTrack = useCallback(
+    (data: SongData) => {
+      setTrack(data);
+    },
+    [track]
   );
 
   return (
     <PlayerContext.Provider
       value={{
-        open,
         track,
         controls,
         handleTrack,
@@ -64,7 +70,7 @@ export default function PlayerContextProvider({ children }: ProviderProps) {
       }}
     >
       {children}
-      <Player /> :
+      <Player />:
     </PlayerContext.Provider>
   );
 }
