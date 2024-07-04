@@ -52,12 +52,18 @@ const PlayButton = ({ variant, track, ...props }: PlayButtonProps) => {
     </button>
   ) : variant === "overlay" ? (
     <button
-      aria-label={!controls.play ? "Play track" : "Pause track"}
+      aria-label={
+        !activeTrack.current || controls.play ? "Play track" : "Pause track"
+      }
       {...props}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
       className={
-        "absolute inset-0 p-4 flex items-center justify-center bg-transparent duration-150 hover:bg-background hover:bg-opacity-70" +
+        `absolute inset-0 p-4 flex items-center justify-center ${
+          activeTrack.current && controls.play
+            ? "bg-background bg-opacity-70"
+            : "bg-transparent"
+        } duration-150 hover:bg-background hover:bg-opacity-70` +
         " " +
         props.className
       }
@@ -74,7 +80,9 @@ const PlayButton = ({ variant, track, ...props }: PlayButtonProps) => {
         <PauseIcon
           size={48}
           className={`${
-            !hovering ? "stroke-transparent" : "stroke-primary opacity-70"
+            !activeTrack.current && !hovering
+              ? "stroke-transparent"
+              : "stroke-primary opacity-70"
           } duration-150`}
         />
       )}
