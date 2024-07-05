@@ -34,10 +34,52 @@ const Player = ({ children }: PlayerProps) => {
     "translate-y-full"
   );
 
+  const pauseElapsedTime = () => {
+    durationInterval.current && clearInterval(durationInterval.current);
+    durationInterval.current = null;
+  };
+  const resetElapsedTime = () => {
+    durationInterval.current && clearInterval(durationInterval.current);
+    durationInterval.current = null;
+
+    elapsedRef.current && (elapsedRef.current.textContent = "0:00");
+  };
+  const updateElapsedTime = () => {
+    if (!audioRef.current || !elapsedRef.current || !remainingRef.current)
+      return;
+
+    durationInterval.current = setInterval(() => {
+      if (!audioRef.current) {
+        durationInterval.current && clearInterval(durationInterval.current);
+        return;
+      }
+
+      if (audioRef.current.currentTime >= audioRef.current.duration) {
+        resetElapsedTime();
+      }
+
+      if (!elapsedRef.current || !remainingRef.current) return;
+
+      elapsedRef.current.textContent = formatTime(audioRef.current.currentTime);
+    }, 1000);
+
+    remainingRef.current.textContent = formatTime(audioRef.current.duration);
+  };
+
+  const onTrackEnded = () => {
+    handleControls("play", false, false);
+    resetElapsedTime();
+  };
+
+  const onTrackPaused = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+    pauseElapsedTime();
+  };
+
   const initPlayback = () => {
     if (!track || !audioRef.current) return;
 
     if (controls.reset) {
+      resetElapsedTime();
       audioRef.current.currentTime = 0;
     }
 
@@ -52,7 +94,15 @@ const Player = ({ children }: PlayerProps) => {
       id="player"
       className={`flex justify-between items-end fixed bottom-0 w-screen z-20 pl-9 pr-5 pt-2 pb-3 bg-background duration-300 ${playerPosition.current}`}
     >
-      {track ? <audio ref={audioRef} src={track.url} /> : null}
+      {track ? (
+        <audio
+          ref={audioRef}
+          src={track.url}
+          onEnded={onTrackEnded}
+          onPause={onTrackPaused}
+          onPlaying={updateElapsedTime}
+        />
+      ) : null}
 
       <div id="player-metadata" className="w-1/4 flex gap-4">
         <img
@@ -125,7 +175,7 @@ const Player = ({ children }: PlayerProps) => {
           className="w-full h-9 flex gap-1 justify-center items-center"
         >
           <p ref={elapsedRef} className="text-sm">
-            0:16
+            0:00
           </p>
           <input
             type="range"
@@ -135,7 +185,7 @@ const Player = ({ children }: PlayerProps) => {
             className="w-9/12 cursor-pointer accent-splash"
           />
           <p ref={remainingRef} className="text-sm">
-            2:12
+            0:00
           </p>
         </div>
       </div>
