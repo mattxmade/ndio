@@ -26,6 +26,7 @@ type PlayerProps = {
 const Player = ({ children }: PlayerProps) => {
   const { track, controls, handleControls } = usePlayerContext();
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const volumeRef = useRef(1);
   const durationInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const elapsedRef = useRef<HTMLParagraphElement | null>(null);
@@ -66,6 +67,11 @@ const Player = ({ children }: PlayerProps) => {
     remainingRef.current.textContent = formatTime(audioRef.current.duration);
   };
 
+  const handleVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+    volumeRef.current = e.currentTarget.valueAsNumber;
+    audioRef.current && (audioRef.current.volume = volumeRef.current);
+  };
+
   const onTrackEnded = () => {
     handleControls("play", false, false);
     resetElapsedTime();
@@ -82,6 +88,9 @@ const Player = ({ children }: PlayerProps) => {
       resetElapsedTime();
       audioRef.current.currentTime = 0;
     }
+
+    if (audioRef.current.volume !== volumeRef.current)
+      audioRef.current.volume = volumeRef.current;
 
     controls.play ? audioRef.current.play() : audioRef.current.pause();
   };
@@ -231,7 +240,9 @@ const Player = ({ children }: PlayerProps) => {
             type="range"
             min={0}
             max={1}
-            step={0.1}
+            step={0.01}
+            onChange={handleVolume}
+            defaultValue={volumeRef.current}
             className="w-28 cursor-pointer accent-splash"
           />
         </div>
