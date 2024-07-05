@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import {
   ShuffleIcon,
@@ -12,10 +12,10 @@ import {
   HeartIcon,
   PlusCircleIcon,
   Share2Icon,
-  Volume2Icon,
   ListMusicIcon,
 } from "lucide-react";
 
+import MuteButton from "./MuteButton";
 import formatTime from "../utils/formatTime";
 import { usePlayerContext } from "./PlayerProvider";
 
@@ -28,6 +28,7 @@ const Player = ({ children }: PlayerProps) => {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const volumeRef = useRef(1);
+  const volumeMutedRef = useRef(false);
 
   const isSeeking = useRef(false);
   const seekPosRef = useRef<number | null>(null);
@@ -78,9 +79,23 @@ const Player = ({ children }: PlayerProps) => {
     remainingRef.current.textContent = formatTime(audioRef.current.duration);
   };
 
+  const updateVolume = (volume: number, muted: boolean) => {
+    if (!audioRef.current) return;
+
+    volumeRef.current = volume;
+    volumeMutedRef.current = muted;
+
+    volumeMutedRef.current
+      ? (audioRef.current.volume = 0)
+      : (audioRef.current.volume = volumeRef.current);
+  };
+
+  const onMuteVolume = useCallback((muteVolume: boolean) => {
+    updateVolume(volumeRef.current, muteVolume);
+  }, []);
+
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    volumeRef.current = e.currentTarget.valueAsNumber;
-    audioRef.current && (audioRef.current.volume = volumeRef.current);
+    updateVolume(e.currentTarget.valueAsNumber, volumeMutedRef.current);
   };
 
   const onSeekStart = () => (isSeeking.current = true);
@@ -125,7 +140,7 @@ const Player = ({ children }: PlayerProps) => {
     }
 
     if (audioRef.current.volume !== volumeRef.current)
-      audioRef.current.volume = volumeRef.current;
+      updateVolume(volumeRef.current, volumeMutedRef.current);
 
     controls.play ? audioRef.current.play() : audioRef.current.pause();
   };
@@ -269,12 +284,7 @@ const Player = ({ children }: PlayerProps) => {
         </button>
 
         <div id="volume" className="flex">
-          <button
-            aria-label="Volume"
-            className="flex justify-center items-center bg-background w-11 h-9 rounded hover:bg-white hover:bg-opacity-20"
-          >
-            <Volume2Icon className="w-5 stroke-primary" />
-          </button>
+          <MuteButton onMuteVolume={onMuteVolume} />
 
           <input
             type="range"
