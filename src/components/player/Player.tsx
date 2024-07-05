@@ -45,9 +45,7 @@ const Player = ({ children }: PlayerProps) => {
     durationInterval.current && clearInterval(durationInterval.current);
     durationInterval.current = null;
   };
-  const resetElapsedTime = (interval?: ReturnType<typeof setInterval>) => {
-    if (interval) clearInterval(interval);
-
+  const resetElapsedTime = () => {
     durationInterval.current && clearInterval(durationInterval.current);
     durationInterval.current = null;
 
@@ -63,16 +61,12 @@ const Player = ({ children }: PlayerProps) => {
     )
       return;
 
-    durationInterval.current = setInterval(() => {
-      durationInterval.current && clearInterval(durationInterval.current);
+    durationInterval.current && clearInterval(durationInterval.current);
 
+    durationInterval.current = setInterval(() => {
       if (!audioRef.current) {
         durationInterval.current && clearInterval(durationInterval.current);
         return;
-      }
-
-      if (audioRef.current.currentTime >= audioRef.current.duration) {
-        durationInterval.current && resetElapsedTime(durationInterval.current); // passing interval context fixes manual seek issue affecting resetElapsedTime func clearInterval invocation
       }
 
       if (!elapsedRef.current || !remainingRef.current) return;
@@ -105,11 +99,17 @@ const Player = ({ children }: PlayerProps) => {
   const onSeekPositionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     seekPosRef.current = e.currentTarget.valueAsNumber;
     audioRef.current && (audioRef.current.currentTime = seekPosRef.current);
+
+    elapsedRef.current &&
+      audioRef.current &&
+      (elapsedRef.current.textContent = formatTime(
+        audioRef.current.currentTime
+      ));
   };
 
   const onTrackEnded = () => {
-    handleControls("play", false, false);
     resetElapsedTime();
+    handleControls("play", false, false);
   };
 
   const onTrackPaused = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
