@@ -78,6 +78,15 @@ const Player = ({ children }: PlayerProps) => {
     audioRef.current && (audioRef.current.volume = volumeRef.current);
   };
 
+  const onSeekStart = () => {
+    isSeeking.current = false;
+    console.log("Seek start");
+  };
+  const onSeekEnd = () => {
+    isSeeking.current = false;
+    console.log("Seek end");
+  };
+
   const onSeekPositionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     seekPosRef.current = e.currentTarget.valueAsNumber;
     audioRef.current && (audioRef.current.currentTime = seekPosRef.current);
@@ -208,6 +217,8 @@ const Player = ({ children }: PlayerProps) => {
             }
             step={1}
             onChange={onSeekPositionChange}
+            onPointerDown={onSeekStart}
+            onPointerUp={onSeekEnd}
             className="w-9/12 cursor-pointer accent-splash"
           />
           <p ref={remainingRef} className="text-sm">
