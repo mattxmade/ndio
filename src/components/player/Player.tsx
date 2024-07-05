@@ -45,28 +45,39 @@ const Player = ({ children }: PlayerProps) => {
     durationInterval.current && clearInterval(durationInterval.current);
     durationInterval.current = null;
   };
-  const resetElapsedTime = () => {
+  const resetElapsedTime = (interval?: ReturnType<typeof setInterval>) => {
+    if (interval) clearInterval(interval);
+
     durationInterval.current && clearInterval(durationInterval.current);
     durationInterval.current = null;
 
     elapsedRef.current && (elapsedRef.current.textContent = "0:00");
+    !isSeeking.current && updateSeekInputValue(0);
   };
   const updateElapsedTime = () => {
-    if (!audioRef.current || !elapsedRef.current || !remainingRef.current)
+    if (
+      !audioRef.current ||
+      !elapsedRef.current ||
+      !remainingRef.current ||
+      !seekInputRef.current
+    )
       return;
 
     durationInterval.current = setInterval(() => {
+      durationInterval.current && clearInterval(durationInterval.current);
+
       if (!audioRef.current) {
         durationInterval.current && clearInterval(durationInterval.current);
         return;
       }
 
       if (audioRef.current.currentTime >= audioRef.current.duration) {
-        resetElapsedTime();
+        durationInterval.current && resetElapsedTime(durationInterval.current); // passing interval context fixes manual seek issue affecting resetElapsedTime func clearInterval invocation
       }
 
       if (!elapsedRef.current || !remainingRef.current) return;
 
+      !isSeeking.current && updateSeekInputValue(audioRef.current.currentTime);
       elapsedRef.current.textContent = formatTime(audioRef.current.currentTime);
     }, 1000);
 
@@ -78,13 +89,17 @@ const Player = ({ children }: PlayerProps) => {
     audioRef.current && (audioRef.current.volume = volumeRef.current);
   };
 
-  const onSeekStart = () => {
-    isSeeking.current = false;
-    console.log("Seek start");
-  };
-  const onSeekEnd = () => {
-    isSeeking.current = false;
-    console.log("Seek end");
+  const onSeekStart = () => (isSeeking.current = true);
+  const onSeekEnd = () => (isSeeking.current = false);
+
+  const updateSeekInputValue = (position: number) => {
+    if (!seekInputRef.current || !audioRef.current) return;
+
+    if (seekInputRef.current.max !== audioRef.current.duration.toFixed()) {
+      seekInputRef.current.max = audioRef.current.duration.toFixed();
+    }
+
+    seekInputRef.current.value = position.toFixed();
   };
 
   const onSeekPositionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -207,14 +222,11 @@ const Player = ({ children }: PlayerProps) => {
             0:00
           </p>
           <input
+            id="seek-position-input"
             ref={seekInputRef}
             type="range"
             min={0}
-            max={
-              audioRef.current?.duration
-                ? +audioRef.current.duration.toFixed()
-                : 1
-            }
+            max={0}
             step={1}
             onChange={onSeekPositionChange}
             onPointerDown={onSeekStart}
