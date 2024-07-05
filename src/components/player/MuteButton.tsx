@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Volume2Icon, VolumeXIcon } from "lucide-react";
 
-const VolumeButton = () => {
+const MuteButton = () => {
   const [muted, setMuted] = useState(false);
 
   const handleOnClick = () => {
@@ -23,4 +23,4 @@ const VolumeButton = () => {
   </button>;
 };
 
-export default VolumeButton;
+export default MuteButton;
