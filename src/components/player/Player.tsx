@@ -25,12 +25,18 @@ type PlayerProps = {
 
 const Player = ({ children }: PlayerProps) => {
   const { track, controls, handleControls } = usePlayerContext();
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const volumeRef = useRef(1);
-  const durationInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const isSeeking = useRef(false);
+  const seekPosRef = useRef<number | null>(null);
+  const seekInputRef = useRef<HTMLInputElement | null>(null);
 
   const elapsedRef = useRef<HTMLParagraphElement | null>(null);
   const remainingRef = useRef<HTMLParagraphElement | null>(null);
+  const durationInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
   const playerPosition = useRef<"translate-y-full" | "translate-y-0">(
     "translate-y-full"
   );
@@ -67,9 +73,14 @@ const Player = ({ children }: PlayerProps) => {
     remainingRef.current.textContent = formatTime(audioRef.current.duration);
   };
 
-  const handleVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     volumeRef.current = e.currentTarget.valueAsNumber;
     audioRef.current && (audioRef.current.volume = volumeRef.current);
+  };
+
+  const onSeekPositionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    seekPosRef.current = e.currentTarget.valueAsNumber;
+    audioRef.current && (audioRef.current.currentTime = seekPosRef.current);
   };
 
   const onTrackEnded = () => {
@@ -187,10 +198,16 @@ const Player = ({ children }: PlayerProps) => {
             0:00
           </p>
           <input
+            ref={seekInputRef}
             type="range"
             min={0}
-            max={1}
-            step={0.1}
+            max={
+              audioRef.current?.duration
+                ? +audioRef.current.duration.toFixed()
+                : 1
+            }
+            step={1}
+            onChange={onSeekPositionChange}
             className="w-9/12 cursor-pointer accent-splash"
           />
           <p ref={remainingRef} className="text-sm">
@@ -241,7 +258,7 @@ const Player = ({ children }: PlayerProps) => {
             min={0}
             max={1}
             step={0.01}
-            onChange={handleVolume}
+            onChange={onVolumeChange}
             defaultValue={volumeRef.current}
             className="w-28 cursor-pointer accent-splash"
           />
