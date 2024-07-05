@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import {
   ShuffleIcon,
@@ -16,7 +16,8 @@ import {
   ListMusicIcon,
 } from "lucide-react";
 
-import { usePlayerContext } from "./player/PlayerProvider";
+import formatTime from "../utils/formatTime";
+import { usePlayerContext } from "./PlayerProvider";
 
 type PlayerProps = {
   children?: React.ReactNode;
@@ -24,6 +25,8 @@ type PlayerProps = {
 
 const Player = ({ children }: PlayerProps) => {
   const { track, controls, handleControls } = usePlayerContext();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const durationInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const elapsedRef = useRef<HTMLParagraphElement | null>(null);
   const remainingRef = useRef<HTMLParagraphElement | null>(null);
@@ -31,6 +34,17 @@ const Player = ({ children }: PlayerProps) => {
     "translate-y-full"
   );
 
+  const initPlayback = () => {
+    if (!track || !audioRef.current) return;
+
+    if (controls.reset) {
+      audioRef.current.currentTime = 0;
+    }
+
+    controls.play ? audioRef.current.play() : audioRef.current.pause();
+  };
+
+  useEffect(initPlayback, [controls]);
   track && (playerPosition.current = "translate-y-0");
 
   return (
@@ -38,6 +52,8 @@ const Player = ({ children }: PlayerProps) => {
       id="player"
       className={`flex justify-between items-end fixed bottom-0 w-screen z-20 pl-9 pr-5 pt-2 pb-3 bg-background duration-300 ${playerPosition.current}`}
     >
+      {track ? <audio ref={audioRef} src={track.url} /> : null}
+
       <div id="player-metadata" className="w-1/4 flex gap-4">
         <img
           src={track?.cover ?? "/cover.avif"}
