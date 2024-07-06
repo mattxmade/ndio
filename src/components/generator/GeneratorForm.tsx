@@ -13,7 +13,7 @@ const GeneratorForm = () => {
               <DicesIcon className="w-5 duration-300 origin-right hover:rotate-45" />
             </button>
 
-            <Button>Create</Button>
+            <Button className="bg-splash">Create</Button>
           </div>
         </div>
 
