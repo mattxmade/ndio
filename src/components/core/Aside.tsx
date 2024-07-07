@@ -11,7 +11,7 @@ import { usePlayerContext } from "../player/PlayerProvider";
 
 const Aside = (props: React.ComponentProps<"aside">) => {
   const player = usePlayerContext();
-  const height = !player.open ? "md:h-screen" : "md:h-[calc(100vh-6rem)]";
+  const height = !player.track ? "md:h-screen" : "md:h-[calc(100vh-6rem)]";
 
   return (
     <aside
