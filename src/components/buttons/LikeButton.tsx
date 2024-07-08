@@ -1,18 +1,26 @@
 "use client";
 
-import { LucideProps, HeartIcon } from "lucide-react";
-
+import { HeartIcon, LucideProps } from "lucide-react";
 import IconButton from "./IconButton";
 
 type LikeButtonProps = {
   iconProps?: LucideProps;
+  data?: { user: {}; track: {} };
 } & React.ComponentPropsWithRef<"button">;
 
-const LikeButton = ({ iconProps, ...props }: LikeButtonProps) => {
+const LikeButton = ({ iconProps, data, ...props }: LikeButtonProps) => {
+  const handleLikeTrack = !data
+    ? () => null
+    : () => {
+        // TODO
+      };
+
   return (
-    <IconButton {...props}>
-      <HeartIcon {...iconProps} />
-    </IconButton>
+    <IconButton
+      Icon={{ FC: HeartIcon, props: iconProps }}
+      onClick={handleLikeTrack}
+      {...props}
+    />
   );
 };
 
