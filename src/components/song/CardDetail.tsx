@@ -22,7 +22,7 @@ const CardDetail = ({ songData, ...props }: CardDetailProps) => {
             className="aspect-square w-24 max-w-none"
           />
 
-          <PlayButton variant="overlay" />
+          <PlayButton variant="overlay" track={songData} />
         </div>
 
         <div className="flex flex-col justify-between pb-1">
