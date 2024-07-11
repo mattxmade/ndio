@@ -15,7 +15,7 @@ const CardGraphic = ({ songData, ...props }: CardGrpahicProps) => {
           className="aspect-square w-[12.5rem] max-w-none"
         />
 
-        <PlayButton variant="overlay" />
+        <PlayButton variant="overlay" track={songData} />
       </div>
 
       <div className="text-muted">
