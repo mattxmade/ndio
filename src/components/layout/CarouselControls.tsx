@@ -6,6 +6,7 @@ import { useIntersection } from "../intersection/useIntersection";
 
 const CarouselControls = ({ id }: { id: string }) => {
   const carouselContRef = useRef<HTMLElement | null>(null);
+  const carouselItemsCount = useRef(0);
 
   const firstItemRef = useRef<Element | null>(null);
   const lastItemRef = useRef<Element | null>(null);
@@ -50,9 +51,14 @@ const CarouselControls = ({ id }: { id: string }) => {
       : setNavNextActive(false);
   }, [firstItemObserver.entry, lastItemObserver.entry]);
 
+  const handleNavigation = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!carouselContRef.current) return;
+  };
+
   return (
     <>
       <button
+        onClick={handleNavigation}
         className="p-2 rounded-ful bg-opacity-0 duration-300 hover:bg-opacity-15"
         aria-label="navigate left"
       >
@@ -62,6 +68,7 @@ const CarouselControls = ({ id }: { id: string }) => {
         />
       </button>
       <button
+        onClick={handleNavigation}
         className="rotate-180 p-2 rounded-full bg-opacity-0 duration-300 hover:bg-opacity-15"
         aria-label="navigate right"
       >
