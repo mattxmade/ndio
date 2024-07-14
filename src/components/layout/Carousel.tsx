@@ -23,7 +23,7 @@ const Carousel = ({ id, categoryData, ...props }: CarouselProps) => {
 
       <ul
         id={id}
-        className="relative left-[-1rem] flex overflow-x-scroll"
+        className="relative left-[-1rem] flex overflow-hidden"
         style={{ transform: "translate(0,0)", transition: "0.6s" }}
       >
         {listOfSongs.map((songItem, i, array) => (
