@@ -8,16 +8,19 @@ const CarouselControls = ({ id }: { id: string }) => {
   const carouselContRef = useRef<HTMLElement | null>(null);
 
   const carouselItemWidth = useRef<number | null>(null);
-  const carouselItemsCount = useRef(0);
+  const carouselPosition = useRef(0);
+  const carouselScrollPosition = useRef(0);
 
   const firstItemRef = useRef<Element | null>(null);
   const lastItemRef = useRef<Element | null>(null);
 
   const firstItemObserver = useIntersection({
     root: carouselContRef.current,
+    threshold: 0.9,
   });
   const lastItemObserver = useIntersection({
     root: carouselContRef.current,
+    threshold: 0.9,
   });
 
   const [navPrevActive, setNavPrevActive] = useState(false);
@@ -56,15 +59,38 @@ const CarouselControls = ({ id }: { id: string }) => {
   const handleNavigation = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!carouselContRef.current) return;
 
+    if (carouselItemWidth.current === null) {
+      const element = carouselContRef.current.firstChild as HTMLElement;
+      if (!element) return;
+
+      const { width } = element.getBoundingClientRect();
+      carouselItemWidth.current = width + 0.01 ?? 0; // 0.01 Intersection width compensation | fixes missed intersection from 0 left scroll position
+    }
+
     const direction = e.currentTarget.ariaLabel;
 
-    if (direction?.includes("left") && navPrevActive) {
-      console.log("nav prev");
+    if (direction?.includes("left")) {
+      if (carouselPosition.current === 0) return;
+
+      carouselPosition.current--;
+      carouselScrollPosition.current -= carouselItemWidth.current;
     }
 
-    if (direction?.includes("right") && navNextActive) {
-      console.log("nav next");
+    if (direction?.includes("right")) {
+      if (
+        carouselPosition.current ===
+        carouselContRef.current.childNodes.length - 1
+      )
+        return;
+
+      carouselPosition.current++;
+      carouselScrollPosition.current += carouselItemWidth.current;
     }
+
+    carouselContRef.current.scrollTo({
+      left: carouselScrollPosition.current,
+      behavior: "smooth",
+    });
   };
 
   return (
