@@ -21,7 +21,11 @@ const Carousel = ({ id, categoryData, ...props }: CarouselProps) => {
         </nav>
       </header>
 
-      <ul id={id} className="relative left-[-1rem] flex overflow-x-scroll">
+      <ul
+        id={id}
+        className="relative left-[-1rem] flex overflow-x-scroll"
+        style={{ transform: "translate(0,0)", transition: "0.6s" }}
+      >
         {listOfSongs.map((songItem, i, array) => (
           <li key={songItem.id + i} className="carousel-item">
             <CardGraphic songData={songItem} />
