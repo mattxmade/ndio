@@ -6,6 +6,8 @@ import { useIntersection } from "../intersection/useIntersection";
 
 const CarouselControls = ({ id }: { id: string }) => {
   const carouselContRef = useRef<HTMLElement | null>(null);
+
+  const carouselItemWidth = useRef<number | null>(null);
   const carouselItemsCount = useRef(0);
 
   const firstItemRef = useRef<Element | null>(null);
@@ -53,6 +55,16 @@ const CarouselControls = ({ id }: { id: string }) => {
 
   const handleNavigation = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!carouselContRef.current) return;
+
+    const direction = e.currentTarget.ariaLabel;
+
+    if (direction?.includes("left") && navPrevActive) {
+      console.log("nav prev");
+    }
+
+    if (direction?.includes("right") && navNextActive) {
+      console.log("nav next");
+    }
   };
 
   return (
