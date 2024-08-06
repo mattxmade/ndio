@@ -16,7 +16,7 @@ export default function SongPage() {
 
   return (
     <PageTemplate variant="minimal">
-      <main className="flex flex-col p-7 pt-3 mt-3 bg-background mb-36 rounded">
+      <main className="flex flex-col p-7 md:p-2 lg:p-7 pt-3 mt-3 bg-background mb-36 rounded">
         <Card songData={songData} className="flex flex-col md:flex-row gap-4" />
 
         <section className="flex flex-wrap gap-10 md:gap-0 p-1 pt-10">
@@ -36,7 +36,7 @@ export default function SongPage() {
           ) : null}
 
           <section className="flex flex-col gap-2 md:w-1/2">
-            <h2 className="text-xl font-bold">More from this creator</h2>
+            <h2 className="text-2xl font-bold">More from this creator</h2>
 
             <ul
               className={
