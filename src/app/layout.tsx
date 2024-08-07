@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import Player from "@/components/Player";
+import PlayerContextProvider from "@/components/player/PlayerProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={
-          inter.className +
-          " " +
-          "text-primary font-metrophobic overflow-x-hidden"
-        }
-      >
-        {children}
-        <Player />
+      <body className={inter.className + " " + "text-primary font-metrophobic"}>
+        <PlayerContextProvider>{children}</PlayerContextProvider>
       </body>
     </html>
   );
