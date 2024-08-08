@@ -1,7 +1,6 @@
 "use client";
 
-import { LucideProps, DownloadIcon } from "lucide-react";
-
+import { DownloadIcon, LucideProps } from "lucide-react";
 import IconButton from "./IconButton";
 
 type DownloadButtonProps = {
@@ -10,9 +9,7 @@ type DownloadButtonProps = {
 
 const DownloadButton = ({ iconProps, ...props }: DownloadButtonProps) => {
   return (
-    <IconButton {...props}>
-      <DownloadIcon {...iconProps} />
-    </IconButton>
+    <IconButton {...props} Icon={{ FC: DownloadIcon, props: iconProps }} />
   );
 };
 
