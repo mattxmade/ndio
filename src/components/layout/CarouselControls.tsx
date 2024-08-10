@@ -69,22 +69,18 @@ const CarouselControls = ({ id }: { id: string }) => {
 
     const direction = e.currentTarget.ariaLabel;
 
-    if (direction?.includes("left")) {
-      if (carouselPosition.current === 0) return;
-
+    if (direction?.includes("left") && navPrevActive) {
       carouselPosition.current--;
-      carouselScrollPosition.current -= carouselItemWidth.current;
+
+      carouselScrollPosition.current =
+        carouselItemWidth.current * carouselPosition.current;
     }
 
-    if (direction?.includes("right")) {
-      if (
-        carouselPosition.current ===
-        carouselContRef.current.childNodes.length - 1
-      )
-        return;
-
+    if (direction?.includes("right") && navNextActive) {
       carouselPosition.current++;
-      carouselScrollPosition.current += carouselItemWidth.current;
+
+      carouselScrollPosition.current =
+        carouselItemWidth.current * carouselPosition.current;
     }
 
     carouselContRef.current.scrollTo({
